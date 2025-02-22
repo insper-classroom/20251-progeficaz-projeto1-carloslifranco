@@ -28,5 +28,14 @@ def delete_note(id):
     con.commit()
     con.close()
 
+# def edit_note(id):
+#     con=sql.connect("db_web.db")
+#     cur=con.cursor()
+#     cur.execute('delete from users where ID=?',(id,))
+#     con.commit()
+#     con.close()
+
+
+
 
         
