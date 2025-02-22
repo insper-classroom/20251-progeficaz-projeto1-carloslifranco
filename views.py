@@ -16,6 +16,6 @@ def submit(titulo, detalhes):
 def deletar_notas(id):
     delete_note(id)
 
-# def editar_notas(id):
-#     edit_note(id)
+def editar_notas(id):
+    update_note(id)
 

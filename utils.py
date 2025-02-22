@@ -28,14 +28,21 @@ def delete_note(id):
     con.commit()
     con.close()
 
-# def edit_note(id):
-#     con=sql.connect("db_web.db")
-#     cur=con.cursor()
-#     cur.execute('delete from users where ID=?',(id,))
-#     con.commit()
-#     con.close()
+# Conectar ao banco de dados e buscar a anotação pelo ID
+def get_note(id):
+    con = sql.connect("db_web.db")
+    cur = con.cursor()
+    cur.execute("SELECT id FROM users WHERE ID = ?", (id,))
+    note = cur.fetchone()
+    con.close()
+    return note[0] if note else None
 
-
-
+# Atualizar a anotação no banco de dados
+def update_note(id, new_text):
+    con = sql.connect("db_web.db")
+    cur = con.cursor()
+    cur.execute("UPDATE users SET note = ? WHERE ID = ?", (new_text, id))
+    con.commit()
+    con.close()
 
         

@@ -1,8 +1,9 @@
-from flask import Flask, render_template_string, request, redirect
+from flask import Flask, render_template_string, request, redirect, url_for, render_template
 import views
+import os
+from views import *
 
-
-app = Flask(__name__)
+app = Flask(__name__, template_folder=os.path.abspath('templates'))
 
 # Configurando a pasta de arquivos estáticos
 app.static_folder = 'static'
@@ -25,10 +26,19 @@ def delete_note(id):
     views.delete_note(id)
     return redirect('/')
 
-# @app.route('/edit_note/<int:id>', methods=['POST', 'GET'])
-# def edit_note(id):
-#     views.edit_note(id)
-#     return redirect('/')
+# Rota para exibir o formulário de edição
+@app.route('/edit_note/<int:id>', methods=['GET', 'POST'])
+def edit_note(id):
+    if request.method == 'POST':
+        new_text = request.form['note']
+        update_note(id, new_text)
+        return redirect(url_for('edit_note', id=id))  # Redireciona após salvar
+
+    # Se for GET, exibe o formulário com a anotação atual
+    note = get_note(id)
+    if note is None:
+        return "Nota não encontrada", 404
+    return render_template('edit_note.html', note=note, id=id)
 
 
 if __name__ == '__main__':
